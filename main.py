@@ -20,9 +20,23 @@ def main():
             break
         if x == "cal":
             utility.calibrateAcc()
+    # x = int(input())
+    # y = int(input())
+    # utility.movb((x,y),False)
+    # while True:
+    # 	# time.sleep(0.5)
+    # 	# utility.bomb()
+    #     c = input()
+    #     if c == "move":
+    #         x = int(input())
+    #         y = int(input())
+    #         utility.movb((x,y),False)
+    #     elif c == "bomb":
+    #         utility.bomb()
 
 
 def strategy():
+    findAcc()
     bounds = moveBoundaries()
     scanPortion(bounds)
 
@@ -174,10 +188,10 @@ def pointDistance(p1, p2):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
-    xrate = 0.0
-    yrate = 0.0
-    xlen = 0.1
-    ylen = 0.1
+    xrate = 0.5
+    yrate = 0.5
+    xlen = 0.2
+    ylen = 0.4
 
     corners = {}
     corners['topleft'] = (xrate*width, yrate*height)
