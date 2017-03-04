@@ -5,20 +5,15 @@ from rObject import *
 import commands
 from main import *
 
-epson2 = 50
-epsilon = 0.5
+epison = 0.1
 aConstant=0
-MAPWIDTH = r.config['mapwidth']
-# HEIGHT = 10000
-# r.config['friction']
+MAPWIDTH = 10000
 
-
-# return the smallest distance btw 2 points, taking account of edge crossing
 def mapDist(t1, dest):
     position = []
     for i in range(-1, 2):
         for j in range(-1, 2):
-            position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
+            position.append(sub(dest, (MAPWIDTH * i, MAPWIDTH * j)))
     minDist = min(position, key=lambda x: distance(x, t1))
     return distance(minDist, t1)
 
@@ -34,10 +29,10 @@ def trueDest(t1, dest):
     position = []
     for i in range(-1, 2):
         for j in range(-1, 2):
-            position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
+            position.append(sub(dest, (MAPWIDTH * i, MAPWIDTH * j)))
     return min(position, key=lambda x: distance(x, t1))
 
-def closeEnough(t1, t2, e = epsilon):
+def closeEnough(t1, t2, e = epison):
     return distance(t1,t2) <= e
 
 def mulC(a,c):
@@ -45,12 +40,6 @@ def mulC(a,c):
 
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
-
-def dot(a,b):
-    return a[0]*b[0]+a[1]*b[1]
-
-def proj(v,d):
-    return mulC(d,dot(v,d)/(norm(d)**2))
 
 def distance(t1, t2):
     return norm(sub(t1,t2))
@@ -78,8 +67,10 @@ def calibrateAcc():
         v = r.vel
         time.sleep(0.2)
         a = distance(v, r.vel)/0.2
+        print(r)
         acceleration.append(a)
     result = sum(acceleration) / 10
+    print(result)
     return result
 
 def findAcc():
@@ -96,6 +87,8 @@ def findAcc():
 
 def direction(pos,dest):
     path = abs(dest[0] - pos[0]), abs(dest[1] - pos[1])
+    print(path)
+    # q1
     angle=0
     if dest[0]==pos[0]:
         if dest[1]<pos[1]:
@@ -104,7 +97,6 @@ def direction(pos,dest):
             angle=math.pi/2
     else:
         angle = math.atan(path[1]/path[0])
-        # q1
         if dest[0]>=pos[0] and dest[1]<=pos[1]:
             angle=-angle
         # q2
@@ -126,58 +118,35 @@ def bomb():
     print (r.pos)
     r.bomb(x,y)
 
-def mova(dest):
-    origDest=dest
-    while True:
-        dest=trueDest(r.pos,dest)
-        d = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
-        aVector=mulC(sub(r.vel,proj(r.vel,d)),-1)
-        mag=min(1,norm(aVector)/aConstant)
-        arg=direction(r.vel,(r.vel[0]+10*aVector[0],r.vel[1]-10*aVector[1]))
-        r.accelerate(arg, mag)
-        if closeEnough(origDest, r.pos, 10):
-            print("Destination Reached")
-            break
 
 def movb(dest,interrupt):
-    if interrupt == False:
-        epsilon = 0.01
-        epson2 = 10
-    else:
-        epsilon = 0.4
-        epson2 = 100
     print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
-    # print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
-    # print(r.pos)
-    while closeEnough((0,0), r.vel, epsilon)==False:
+    print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
+    print(r.pos)
+    while closeEnough((0,0), r.vel)==False:
+        time.sleep(0.025)
         # decelerate
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
-    if interrupt:
-        r.bomb(r.pos[0],r.pos[1])
+        # run("BRAKE")
+    r.bomb(r.pos[0],r.pos[1])
     print(dest)
     origDest=dest
     dest=trueDest(r.pos,dest)
     print(dest)
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
-    prev = r.pos
-    counter = 1
+
     while True:
-        time.sleep(0.025)
-        counter += 1
-        if mapDist(prev, origDest) < mapDist(r.pos, origDest) && counter >= 10:
-            return False
-        prev = r.pos
         if interrupt:
             mines=r.mines
-            mines=[x for x in mines if x[0]!=username]
+            mines=[x for x in mines if x[0]!="goose"]
             if (mines!=[]):
                 print ("found")
                 return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
         # print(distance(dest,r.pos))
-        if closeEnough(origDest, r.pos, epson2):
+        if closeEnough(origDest, r.pos, 50):
             print("Desstination Reached")
             break
 
