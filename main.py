@@ -1,5 +1,12 @@
-from clientpy3 import *
+from commands import *
+r = MyReponse()
 
-if __name__ == "__main__":
-	run("ACCELERATE 3.14 1")
+def main():
+	r.update()
+	print(r)
 
+def statusUpdate():
+	while True:
+		pass
+
+main()
