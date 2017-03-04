@@ -54,12 +54,18 @@ class MyReponse:
             return cSet
 
         r = run("STATUS").split(" ")
-        self.mines = findInSet(r,"MINES")
-        self.allMines = self.allMines.union(set(self.mines))
-        self.players = findInSet(r,'PLAYERS')
-        self.bombs = findInSet(r,'BOMBS')
-        self.pos = [float(x) for x in r[1:3]]
-        self.vel = [float(x) for x in r[3:5]]
+        while len(r) <= 1:
+            r = run("STATUS").split(" ")
+        try:
+            self.mines = findInSet(r,"MINES")
+            self.allMines = self.allMines.union(set([("_", x[1],x[2]) for x in self.mines]))
+            self.players = findInSet(r,'PLAYERS')
+            self.bombs = findInSet(r,'BOMBS')
+            self.pos = [float(x) for x in r[1:3]]
+            self.vel = [float(x) for x in r[3:5]]
+        except Exception as e:
+            print(r)
+            print(e)
 
     def accelerate(self, radians, boost):
         r = run("ACCELERATE " + str(radians) + " " + str(boost))

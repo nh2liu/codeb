@@ -5,7 +5,8 @@ from rObject import *
 import commands
 from main import *
 
-epison = 0.005
+epison = 0.5
+epson2 = 50
 MAPWIDTH = 10000
 
 def mapDist(t1, dest):
@@ -82,12 +83,20 @@ def findAcc():
 
 
 def movb(dest,interrupt):
-    # print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
+    if interrupt == False:
+        epison = 0.03
+        epson2 = 10
+    else:
+        epison = 0.4
+        epson2 = 100
+    print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
     # print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
     # print(r.pos)
-    while closeEnough((0,0), r.vel)==False:
+    while closeEnough((0,0), r.vel, epison)==False:
         run("BRAKE")
+
     # print(dest)
+    origDest=dest
     dest=trueDest(r.pos,dest)
     # print(dest)
     path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
@@ -101,30 +110,31 @@ def movb(dest,interrupt):
     else:
         angle = math.atan(path[1]/path[0])
         if dest[0]>=r.pos[0] and dest[1]<=r.pos[1]:
-            print("q1")
+            # print("q1")
             r.accelerate(-angle, 1)
         # q2
         elif dest[0]<=r.pos[0] and dest[1]<=r.pos[1]:
-            print("q2")
+            # print("q2")
             r.accelerate(math.pi+angle, 1)
         # q3
         elif dest[0]<=r.pos[0] and dest[1]>=r.pos[1]:
-            print("q3")
+            # print("q3")
             r.accelerate(math.pi-angle, 1)
         # q4
         else:
-            print("q4")
+            # print("q4")
             r.accelerate(angle, 1)
 
     while True:
         time.sleep(0.1)
-        mines=r.mines
-        mines=[x for x in mines if x[0]!="goose"]
-        if (mines!=[]):
-            print ("found")
-            return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
+        if interrupt:
+            mines=r.mines
+            mines=[x for x in mines if x[0]!=username]
+            if (mines!=[]):
+                print ("found")
+                return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
         # print(distance(dest,r.pos))
-        if closeEnough(dest, r.pos, 5):
+        if closeEnough(origDest, r.pos, epson2):
             print("Desstination Reached")
             break
 
