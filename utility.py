@@ -148,9 +148,11 @@ def movb(dest,interrupt):
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
     prev = r.pos
+    counter = 1
     while True:
         time.sleep(0.025)
-        if mapDist(prev, origDest) <= mapDist(r.pos, origDest):
+        counter += 1
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest) && counter >= 10:
             return False
         prev = r.pos
         if interrupt:
