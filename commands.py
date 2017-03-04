@@ -20,6 +20,7 @@ class MyReponse:
         self.pos = (0,0)
         self.vel = (0,0)
         self.mines = []
+        self.allMines = set()
         self.players = []
         self.bombs = []
         self.configs = {}
@@ -54,6 +55,7 @@ class MyReponse:
 
         r = run("STATUS").split(" ")
         self.mines = findInSet(r,"MINES")
+        self.allMines = self.allMines.union(set(self.mines))
         self.players = findInSet(r,'PLAYERS')
         self.bombs = findInSet(r,'BOMBS')
         self.pos = [float(x) for x in r[1:3]]
