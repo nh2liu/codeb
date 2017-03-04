@@ -119,9 +119,13 @@ def direction(pos,dest):
             angle=angle
     return angle
 
-def bomb():
+def bomb(xc=None,yc=None):
     x=r.pos[0]+10*r.vel[0]
     y=r.pos[1]+10*r.vel[1]
+
+    if xc:
+        x = xc
+        y = yc
     # print (x)
     # print (y)
     # print (r.pos)
@@ -143,6 +147,7 @@ def mova(dest):
         if closeEnough(origDest, r.pos, 10):
             print("Destination Reached")
             break
+
 def movc(dest, nul = False):
     origDest=dest
     dest = trueDest(r.pos, origDest)
@@ -207,7 +212,7 @@ def movb(dest,interrupt):
     # print(r.pos)
     while closeEnough((0,0), r.vel, epson3)==False:
         time.sleep(0.025)
-        print("decelerating")
+        # print("decelerating")
         # decelerate
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
@@ -238,11 +243,15 @@ def movb(dest,interrupt):
             if (mines!=[]):
                 print ("found")
                 return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
+        else:
+            for player in r.players:
+                if closeEnough(player.pos, origDest, r.config['bombeffectradius']*2):
+                    bomb(player.pos[0], player.pos[1])
+
         # print(distance(dest,r.pos))
         if closeEnough(origDest, r.pos, epson2):
             print("Desstination Reached")
             break
-
 def whenTobrake():
     x = norm
 

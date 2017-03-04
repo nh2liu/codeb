@@ -5,7 +5,7 @@ def run(* commands):
     user = "a"
     password = "a"
     HOST, PORT = "localhost", 17429
-    if 1:
+    if 0:
         ARR = ["g", "o", "o", "s", "e"]
         user = "".join(ARR)
         ARR[1] = ARR[2] = "e"
