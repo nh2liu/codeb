@@ -147,7 +147,8 @@ def statusUpdate():
     while True:
         time.sleep(0.05)
         r.update()
-        print(r)
+        # print(r)
 
 
-strategy()
+if __name__ == "__main__":
+	main()
