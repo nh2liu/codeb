@@ -68,26 +68,29 @@ def movb(dest):
 
     path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
     print(path)
-
-    angle = math.atan(path[1]/path[0])
-    # print(angle*57.2958)
-    r.accelerate(angle, 1)
     # q1
-    if dest[0]>=r.pos[0] and dest[1]<=r.pos[1]:
-        print("q1")
-        r.accelerate(-angle, 1)
-    # q2
-    elif dest[0]<=r.pos[0] and dest[1]<=r.pos[1]:
-        print("q2")
-        r.accelerate(math.pi+angle, 1)
-    # q3
-    elif dest[0]<=r.pos[0] and dest[1]>=r.pos[1]:
-        print("q3")
-        r.accelerate(math.pi-angle, 1)
-    # q4
+    if dest[0]==r.pos[0]:
+        if dest[1]<r.pos[1]:
+            r.accelerate(3*math.pi/2, 1)
+        else:
+            r.accelerate(math.pi/2, 1)
     else:
-        print("q4")
-        r.accelerate(angle, 1)
+        angle = math.atan(path[1]/path[0])
+        if dest[0]>=r.pos[0] and dest[1]<=r.pos[1]:
+            print("q1")
+            r.accelerate(-angle, 1)
+        # q2
+        elif dest[0]<=r.pos[0] and dest[1]<=r.pos[1]:
+            print("q2")
+            r.accelerate(math.pi+angle, 1)
+        # q3
+        elif dest[0]<=r.pos[0] and dest[1]>=r.pos[1]:
+            print("q3")
+            r.accelerate(math.pi-angle, 1)
+        # q4
+        else:
+            print("q4")
+            r.accelerate(angle, 1)
 
     while True:
         time.sleep(0.1)
