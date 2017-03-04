@@ -8,6 +8,7 @@ stop = 1
 def main():
 	updateThread = threading.Thread(target = statusUpdate)
 	updateThread.start()
+	utility.findAcc()
 	while True:
 		x = int(input())
 		y = int(input())
