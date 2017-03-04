@@ -46,7 +46,7 @@ def mulC(a,c):
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
 
-def dot(a,b)
+def dot(a,b):
     return a[0]*b[0]+a[1]*b[1]
 
 def distance(t1, t2):
@@ -118,9 +118,9 @@ def direction(pos,dest):
 def bomb():
     x=r.pos[0]+10*r.vel[0]
     y=r.pos[1]+10*r.vel[1]
-    print (x)
-    print (y)
-    print (r.pos)
+    # print (x)
+    # print (y)
+    # print (r.pos)
     r.bomb(x,y)
 
 
@@ -150,7 +150,7 @@ def movb(dest,interrupt):
     prev = r.pos
     while True:
         time.sleep(0.025)
-        if mapDist(prev, origDest) <= mapDist(r.pos, origDest):
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest):
             return False
         prev = r.pos
         if interrupt:
