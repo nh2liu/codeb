@@ -66,13 +66,13 @@ def moveBoundaries():
     ylen = 0.5
 
     return ((xrate * width, yrate*height), xlen * width, ylen*height)
->>>>>>> ba1e0b101dd42e2bbca93c00bfa28351a7fc2b29
 
 def statusUpdate():
     while True:
         time.sleep(0.1)
         r.update()
-        print(r)
+        # print(r)
 
 
-strategy()
+if __name__ == "__main__":
+	main()

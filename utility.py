@@ -92,8 +92,8 @@ def movb(dest):
     while True:
         time.sleep(0.1)
         print(distance(dest,r.pos))
-        if closeEnough(dest, r.pos, 200):
-            print("Current Position is {0}".format(r.pos))
+        if closeEnough(dest, r.pos, 5):
+            print("Desstination Reached")
             break
 
 def whenTobrake():
