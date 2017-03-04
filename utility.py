@@ -5,7 +5,7 @@ from rObject import *
 import commands
 from main import *
 
-epison = 0.1
+epsison = 0.1
 aConstant=0
 MAPWIDTH = 10000
 # HEIGHT = 10000
@@ -34,7 +34,7 @@ def trueDest(t1, dest):
             position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
     return min(position, key=lambda x: distance(x, t1))
 
-def closeEnough(t1, t2, e = epison):
+def closeEnough(t1, t2, e = epsison):
     return distance(t1,t2) <= e
 
 def mulC(a,c):
@@ -89,7 +89,6 @@ def findAcc():
 
 def direction(pos,dest):
     path = abs(dest[0] - pos[0]), abs(dest[1] - pos[1])
-    print(path)
     # q1
     angle=0
     if dest[0]==pos[0]:
@@ -130,7 +129,6 @@ def movb(dest,interrupt):
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
-        # run("BRAKE")
     r.bomb(r.pos[0],r.pos[1])
     print(dest)
     origDest=dest
