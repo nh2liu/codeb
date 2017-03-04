@@ -4,7 +4,7 @@ import threading
 from utility import *
 import copy
 import math
-
+import random
 stop = 1
 
 def main():
@@ -85,35 +85,35 @@ def scanPortion(boundsTuple):
         k = None
         if top:
             targPos = (r.pos[0], r.pos[1] + ylen)
-            movb(targPos, True)
+            # movb(targPos, True)
         else:
             targPos = (r.pos[0], r.pos[1] - ylen)
-            movb(targPos, True)
+            # movb(targPos, True)
 
         distanceToTopBottom = mapDist(r.pos, targPos)
-
         while(distanceToTopBottom > r.config['visionradius']):
+            movb(targPos, True)
             for mine in r.mines:
+                print("processing mine " + str(mine))
                 if mine[0] != username:
                     strayToMine(mine)
-            if len(r.mines) > 0:
-                movb(targPos, True)
-
+            
+            print(distanceToTopBottom)
             distanceToTopBottom = mapDist(r.pos, targPos)
-
         top = not top
 
         if left:
-            nextX = r.pos[0] + 2*r.config['visionradius']
+            nextX = r.pos[0] + 2*r.config['visionradius'] + 50
             if nextX > r.config['mapwidth']:
                 nextX = nextX - r.config['mapwidth']
         else:
-            nextX = r.pos[0] - 2*r.config['visionradius']
+            nextX = r.pos[0] - 2*r.config['visionradius'] - 50
             if nextX < 0:
                 nextX = r.config['mapwidth'] + nextX
 
         print("LEFT " + str(left) + " NEXT X " + str(nextX))
         nextPos = (nextX, r.pos[1])
+        print(nextPos)
         k = movb(nextPos, True)
         if k != None and k != False:
             strayToMine(k)
@@ -154,7 +154,8 @@ def strayToMine(mine):
     movb(curPos, False)
     '''
 
-
+#def scanStrat():
+#    send()
 # def moveToCorner(currentPos, bounds):
 #     cornerType = {}
 
@@ -183,10 +184,18 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
+<<<<<<< HEAD
     xrate = 0.45
     yrate = 0.3
     xlen = 0.4
     ylen = 0.2
+=======
+
+    xrate = 0.1
+    yrate = 0.1
+    xlen = 0.25
+    ylen = 0.25
+>>>>>>> c732a5510fd86da7a323e3ef769a6c8c4ba83f88
 
     corners = {}
     corners['topleft'] = (xrate*width, yrate*height)

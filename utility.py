@@ -119,9 +119,13 @@ def direction(pos,dest):
             angle=angle
     return angle
 
-def bomb():
+def bomb(xc=None,yc=None):
     x=r.pos[0]+10*r.vel[0]
     y=r.pos[1]+10*r.vel[1]
+
+    if xc:
+        x = xc
+        y = yc
     # print (x)
     # print (y)
     # print (r.pos)
@@ -144,7 +148,7 @@ def mova(dest):
             print("Destination Reached")
             break
 
-def movb(dest, nul = False):
+def movc(dest, nul = False):
     origDest=dest
     dest = trueDest(r.pos, origDest)
     prev=r.pos
@@ -198,6 +202,15 @@ def movb(dest,interrupt):
         epsilon = 0.015
         epson2 = 10
         epson3 = 0.2
+=======
+
+def movb(dest,interrupt):
+    if interrupt == False:
+        epsilon = 0.015
+        epson2 = r.config['captureradius']
+        print(epson2)
+        epson3 = 0.3
+>>>>>>> c732a5510fd86da7a323e3ef769a6c8c4ba83f88
     else:
         epsilon = 0.4
         epson3 = 0.2
@@ -207,11 +220,16 @@ def movb(dest,interrupt):
     # print(r.pos)
     while closeEnough((0,0), r.vel, epson3)==False:
         time.sleep(0.025)
-        print("decelerating")
+        # print("decelerating")
         # decelerate
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
+    while closeEnough((0,0), r.vel, epson3/3)==True:
+        time.sleep(0.025)
+        print("braking")
+        # decelerate
+        r.halt()
     # if interrupt:
     #     r.bomb(r.pos[0],r.pos[1])
     print(dest)
@@ -224,20 +242,26 @@ def movb(dest,interrupt):
     while True:
         time.sleep(0.01)
         counter += 1
-        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 500:
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 200:
             return False
         prev = r.pos
+        if len(r.players) >= 1: bomb(origDest[0], origDest[1])
         if interrupt:
             mines=r.mines
             mines=[x for x in mines if x[0]!=username]
             if (mines!=[]):
                 print ("found")
                 return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
+           
+
         # print(distance(dest,r.pos))
         if closeEnough(origDest, r.pos, epson2):
             print("Desstination Reached")
             break
+<<<<<<< HEAD
 '''
+=======
+>>>>>>> c732a5510fd86da7a323e3ef769a6c8c4ba83f88
 def whenTobrake():
     x = norm
 
