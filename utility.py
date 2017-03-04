@@ -46,6 +46,9 @@ def mulC(a,c):
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
 
+def dot(a,b)
+    return a[0]*b[0]+a[1]*b[1]
+
 def distance(t1, t2):
     return norm(sub(t1,t2))
 
