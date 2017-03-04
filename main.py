@@ -184,8 +184,8 @@ def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
 
-    xrate = 0.70
-    yrate = 0.65
+    xrate = 0.1
+    yrate = 0.1
     xlen = 0.25
     ylen = 0.25
 

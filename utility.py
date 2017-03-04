@@ -201,7 +201,8 @@ def movc(dest, nul = False):
 def movb(dest,interrupt):
     if interrupt == False:
         epsilon = 0.015
-        epson2 = 10
+        epson2 = r.config['captureradius']
+        print(epson2)
         epson3 = 0.3
     else:
         epsilon = 0.4
@@ -237,16 +238,14 @@ def movb(dest,interrupt):
         if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 200:
             return False
         prev = r.pos
+        if len(r.players) >= 1: bomb(origDest[0], origDest[1])
         if interrupt:
             mines=r.mines
             mines=[x for x in mines if x[0]!=username]
             if (mines!=[]):
                 print ("found")
                 return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
-        else:
-            for player in r.players:
-                if closeEnough(player.pos, origDest, r.config['bombeffectradius']*2):
-                    bomb(player.pos[0], player.pos[1])
+           
 
         # print(distance(dest,r.pos))
         if closeEnough(origDest, r.pos, epson2):
