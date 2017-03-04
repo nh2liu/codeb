@@ -11,8 +11,9 @@ def main():
     updateThread = threading.Thread(target = statusUpdate)
     updateThread.start()
     time.sleep(1)
-    strategyThread = threading.Thread(target = strategy)
-    strategyThread.start()
+    # strategyThread = threading.Thread(target = strategy)
+    # strategyThread.start()
+    findAcc()
     # while True:
     #     x = input()
     #     if x == "stop":
@@ -182,9 +183,9 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
-    xrate = 0.3
-    yrate = 0.14
-    xlen = 0.3
+    xrate = 0.45
+    yrate = 0.3
+    xlen = 0.4
     ylen = 0.2
 
     corners = {}
