@@ -75,7 +75,7 @@ class MyReponse:
         b = run("BRAKE")
         return b
 
-    def bomb(self, x,y, frames=None):
+    def bomb(self, x,y, frames=1):
         r = "BOMB " + str(x) + " " + str(y)
         print(r)
         if frames:

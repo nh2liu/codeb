@@ -182,9 +182,9 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
-    xrate = 0.3
-    yrate = 0.14
-    xlen = 0.3
+    xrate = 0
+    yrate = 0
+    xlen = 0.33
     ylen = 0.2
 
     corners = {}
