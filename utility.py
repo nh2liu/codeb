@@ -161,14 +161,14 @@ def movb(dest,interrupt):
     dest=trueDest(r.pos,dest)
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
-    # prev = r.pos
-    # counter = 1
+    prev = r.pos
+    counter = 1
     while True:
-        time.sleep(0.025)
-        # counter += 1
-        # if mapDist(prev, origDest) < mapDist(r.pos, origDest) && counter >= 10:
-        #     return False
-        # prev = r.pos
+        time.sleep(0.01)
+        counter += 1
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 500:
+            return False
+        prev = r.pos
         if interrupt:
             mines=r.mines
             mines=[x for x in mines if x[0]!=username]

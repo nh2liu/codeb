@@ -1,5 +1,5 @@
 from commands import *
 global r
 global username
-username = "a"
+username = "goose"
 r = MyReponse()
