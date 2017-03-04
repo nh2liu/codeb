@@ -71,6 +71,7 @@ class MyReponse:
 
     def bomb(self, x,y, frames=None):
         r = "BOMB " + str(x) + " " + str(y)
+        print(r)
         if frames:
             r += " " + str(frames)
         resp = run(r)

@@ -10,15 +10,20 @@ stop = 1
 def main():
     updateThread = threading.Thread(target = statusUpdate)
     updateThread.start()
+    # x = int(input())
+    # y = int(input())
+    # utility.movb((x,y),False)
+    utility.findAcc()
     while True:
-        x = int(input())
-        y = int(input())
-        utility.movb((x,y),False)
-        if x == "stop":
-            stop = 0
-            break
-        if x == "cal":
-            utility.calibrateAcc()
+    	# time.sleep(0.5)
+    	# utility.bomb()
+        c = input()
+        if c == "move":
+            x = int(input())
+            y = int(input())
+            utility.movb((x,y),False)
+        elif c == "bomb":
+            utility.bomb()
 
 
 def statusUpdate():
