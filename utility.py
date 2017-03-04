@@ -59,7 +59,7 @@ def findAcc():
     print("Acceleration is: "+str(aConstant))
 
 
-def movb(dest):
+def movb(dest,interrupt):
     print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
     print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
     print(r.pos)

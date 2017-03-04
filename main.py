@@ -12,7 +12,7 @@ def main():
     while True:
         x = int(input())
         y = int(input())
-        utility.movb((x,y))
+        utility.movb((x,y),False)
         if x == "stop":
             stop = 0
             break
