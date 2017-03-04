@@ -43,6 +43,9 @@ def mulC(a,c):
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
 
+def dot(a,b)
+    return a[0]*b[0]+a[1]*b[1]
+
 def distance(t1, t2):
     return norm(sub(t1,t2))
 
@@ -147,7 +150,7 @@ def movb(dest,interrupt):
     #             return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
     #     # print(distance(dest,r.pos))
     #     if closeEnough(origDest, r.pos, 100):
-    #         print("Desstination Reached")
+    #         print("Destination Reached")
     #         break
 
 def whenTobrake():
