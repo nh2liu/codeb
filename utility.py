@@ -130,7 +130,11 @@ def bomb(xc=None,yc=None):
     # print (y)
     # print (r.pos)
     r.bomb(x,y)
-
+def crossEdge(prev,cur):
+    if (abs(prev[0]-cur[0])>0.9*r.config['mapwidth'] or abs(prev[1]-cur[1])>0.9*r.config['mapheight']):
+        return True
+    else:
+        return False
 def mova(dest):
     origDest=dest
     while True:
@@ -143,15 +147,70 @@ def mova(dest):
         if closeEnough(origDest, r.pos, 10):
             print("Destination Reached")
             break
+# def movb(dest, nul = False):
+#     origDest=dest
+#     dest = trueDest(r.pos, origDest)
+#     print('dest : ' + str(dest))
+#     prev=r.pos
+#     actualDest=dest
+#     while True:
+#         if (crossEdge(prev,r.pos)):
+#             print("edge cross")
+#             actualDest=origDest
+#         prev=r.pos
+#         if closeEnough(origDest, r.pos, 10):
+#             break
+#         if nul:
+#             mines=r.mines
+#             mines=[x for x in mines if x[0]!=username]
+#             if (mines!=[]):
+#                 print ("found")
+#                 return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
+#         else:
+#             for player in r.players:
+#                 if closeEnough(player.pos, origDest, r.config['bombeffectradius']*2):
+#                     bomb(player.pos[0], player.pos[1])
 
+#         d = actualDest[0] - r.pos[0], actualDest[1] - r.pos[1]
+#         if (norm(d)==0):
+#             break
+#         aVector = mulC(sub(r.vel,proj(r.vel, d)), -1)
+#         arg=0
+#         mag=0
+#         if (norm(aVector)<aConstant):
+#             arg=direction(r.pos,actualDest)
+#             mag=1
+#         else:
+#             # binary search for best value
+#             low = 0
+#             if (d[1]):
+#                 low= proj(r.vel,d)[1]/d[1]
+#             else:
+#                 low = proj(r.vel, d)[0] / d[0]
+#             high=low + aConstant/norm(d)
+#             n=0
+#             acc=0,0
+#             while(abs(high-low)<0.001):
+#                 n=(low+high)/2
+#                 acc=sub(mulC(d,n),r.vel)
+#                 if (norm(acc)<=aConstant):
+#                     low=n+0.001
+#                 else:
+#                     high=n-0.001
+#             arg=direction(r.vel,(r.vel[0]+10*acc[0],r.vel[1]+10*acc[1]))
+#             mag=1
+#         r.accelerate(arg, mag)
+#       #  print("accelerating", origDest, arg, dest)
+#     print("Destination Reached")
+# '''
 def movb(dest,interrupt):
     if interrupt == False:
         epsilon = 0.015
         epson2 = 10
-        epson3 = 0.5
+        epson3 = 0.2
     else:
         epsilon = 0.4
-        epson3 = 0.5
+        epson3 = 0.2
         epson2 = 100
     print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
     # print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
@@ -193,7 +252,7 @@ def movb(dest,interrupt):
         if closeEnough(origDest, r.pos, epson2):
             print("Desstination Reached")
             break
-
+# '''
 def whenTobrake():
     x = norm
 

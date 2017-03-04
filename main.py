@@ -90,14 +90,16 @@ def scanPortion(boundsTuple):
             movb(targPos, True)
 
         distanceToTopBottom = mapDist(r.pos, targPos)
+        print("Distance to top bottom: " + str(distanceToTopBottom))
 
         while(distanceToTopBottom > r.config['visionradius']):
+            print("IN HERE")
             for mine in r.mines:
                 if mine[0] != username:
                     strayToMine(mine)
             if len(r.mines) > 0:
                 movb(targPos, True)
-
+            print(distanceToTopBottom)
             distanceToTopBottom = mapDist(r.pos, targPos)
 
         top = not top
@@ -113,6 +115,7 @@ def scanPortion(boundsTuple):
 
         print("LEFT " + str(left) + " NEXT X " + str(nextX))
         nextPos = (nextX, r.pos[1])
+        print(nextPos)
         k = movb(nextPos, True)
         if k != None and k != False:
             strayToMine(k)
@@ -182,10 +185,11 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
+
     xrate = 0
-    yrate = 0
-    xlen = 0.33
-    ylen = 0.2
+    yrate = 0.5
+    xlen = 0.5
+    ylen = 0.5
 
     corners = {}
     corners['topleft'] = (xrate*width, yrate*height)
