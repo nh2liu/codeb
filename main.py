@@ -25,4 +25,5 @@ def statusUpdate():
 		r.update()
 		#print(r)
 
-main()
+if __name__ == "__main__":
+	main()

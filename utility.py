@@ -1,5 +1,6 @@
 import math
 import time
+import copy
 from main import *
 
 def sub(a,b):
@@ -28,9 +29,11 @@ def calibrateAcc():
     run("ACCELERATE 0 1")
     acceleration = []
     for i in range(5):
+        v = r.vel
         time.sleep(0.2)
-        # calculation
-        print()
+        a = distance(v, r.vel)/0.2
+        print(r)
+        acceleration.append(a)
     result = sum(acceleration) / 10
     print(result)
     return result
