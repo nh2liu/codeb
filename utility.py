@@ -8,12 +8,12 @@ from main import *
 epison = 0.005
 # MAPWIDTH = 10000
 # HEIGHT = 10000
-# r.configs['friction']
+# r.config['friction']
 def mapDist(t1, dest):
     position = []
     for i in range(-1, 2):
         for j in range(-1, 2):
-            position.append(sub(dest, (r.configs['mapwidth'] * i, r.configs['mapheight'] * j)))
+            position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
     minDist = min(position, key=lambda x: distance(x, t1))
     return distance(minDist, t1)
 
@@ -29,7 +29,7 @@ def trueDest(t1, dest):
     position = []
     for i in range(-1, 2):
         for j in range(-1, 2):
-            position.append(sub(dest, (r.configs['mapwidth'] * i, r.configs['mapheight'] * j)))
+            position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
     return min(position, key=lambda x: distance(x, t1))
 
 def closeEnough(t1, t2, e = epison):

@@ -13,6 +13,7 @@ def main():
     while True:
         x = int(input())
         y = int(input())
+        print(r.config)
         utility.movb((x,y),False)
         if x == "stop":
             stop = 0
