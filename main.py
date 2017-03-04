@@ -22,7 +22,6 @@ def statusUpdate():
 	while stop:
 		r.update()
 		#print(r)
-		time.sleep(10)
 
 
 if __name__ == "__main__":
