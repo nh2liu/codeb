@@ -84,32 +84,29 @@ def scanPortion(boundsTuple):
         k = None
         if top:
             targPos = (r.pos[0], r.pos[1] + ylen)
-            movb(targPos, True)
+            # movb(targPos, True)
         else:
             targPos = (r.pos[0], r.pos[1] - ylen)
-            movb(targPos, True)
+            # movb(targPos, True)
 
         distanceToTopBottom = mapDist(r.pos, targPos)
-        print("Distance to top bottom: " + str(distanceToTopBottom))
-
         while(distanceToTopBottom > r.config['visionradius']):
-            print("IN HERE")
+            movb(targPos, True)
             for mine in r.mines:
+                print("processing mine " + str(mine))
                 if mine[0] != username:
                     strayToMine(mine)
-            if len(r.mines) > 0:
-                movb(targPos, True)
+            
             print(distanceToTopBottom)
             distanceToTopBottom = mapDist(r.pos, targPos)
-
         top = not top
 
         if left:
-            nextX = r.pos[0] + 2*r.config['visionradius']
+            nextX = r.pos[0] + 2*r.config['visionradius'] + 50
             if nextX > r.config['mapwidth']:
                 nextX = nextX - r.config['mapwidth']
         else:
-            nextX = r.pos[0] - 2*r.config['visionradius']
+            nextX = r.pos[0] - 2*r.config['visionradius'] - 50
             if nextX < 0:
                 nextX = r.config['mapwidth'] + nextX
 

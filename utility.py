@@ -217,7 +217,7 @@ def movb(dest,interrupt):
     # print(r.pos)
     while closeEnough((0,0), r.vel, epson3)==False:
         time.sleep(0.025)
-        print("decelerating")
+        # print("decelerating")
         # decelerate
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
