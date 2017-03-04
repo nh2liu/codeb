@@ -12,6 +12,8 @@ MAPWIDTH = r.config['mapwidth']
 # HEIGHT = 10000
 # r.config['friction']
 
+
+# return the smallest distance btw 2 points, taking account of edge crossing
 def mapDist(t1, dest):
     position = []
     for i in range(-1, 2):
@@ -134,16 +136,20 @@ def movb(dest,interrupt):
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
-    r.bomb(r.pos[0],r.pos[1])
+    if interrupt:
+        r.bomb(r.pos[0],r.pos[1])
     print(dest)
     origDest=dest
     dest=trueDest(r.pos,dest)
     print(dest)
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
-
+    prev = r.pos
     while True:
-        time.sleep(0.1)
+        time.sleep(0.025)
+        if mapDist(prev, origDest) <= mapDist(r.pos, origDest):
+            return False
+        prev = r.pos
         if interrupt:
             mines=r.mines
             mines=[x for x in mines if x[0]!=username]
