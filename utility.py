@@ -5,7 +5,7 @@ from rObject import *
 import commands
 from main import *
 
-epsison = 0.1
+epsilon = 0.1
 aConstant=0
 MAPWIDTH = 10000
 # HEIGHT = 10000
@@ -34,7 +34,7 @@ def trueDest(t1, dest):
             position.append(sub(dest, (r.config['mapwidth'] * i, r.config['mapheight'] * j)))
     return min(position, key=lambda x: distance(x, t1))
 
-def closeEnough(t1, t2, e = epsison):
+def closeEnough(t1, t2, e = epsilon):
     return distance(t1,t2) <= e
 
 def mulC(a,c):
@@ -89,7 +89,6 @@ def findAcc():
 
 def direction(pos,dest):
     path = abs(dest[0] - pos[0]), abs(dest[1] - pos[1])
-    # q1
     angle=0
     if dest[0]==pos[0]:
         if dest[1]<pos[1]:
@@ -98,6 +97,7 @@ def direction(pos,dest):
             angle=math.pi/2
     else:
         angle = math.atan(path[1]/path[0])
+        # q1
         if dest[0]>=pos[0] and dest[1]<=pos[1]:
             angle=-angle
         # q2
