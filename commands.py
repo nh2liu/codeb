@@ -58,7 +58,7 @@ class MyReponse:
         self.bombs = findInSet(r,'BOMBS')
         self.pos = [float(x) for x in r[1:3]]
         self.vel = [float(x) for x in r[3:5]]
-        
+
     def accelerate(self, radians, boost):
         r = run("ACCELERATE " + str(radians) + " " + str(boost))
         return r
