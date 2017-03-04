@@ -13,26 +13,24 @@ def main():
     time.sleep(1)
     strategyThread = threading.Thread(target = strategy)
     strategyThread.start()
-    while True:
-        x = input()
-        if x == "stop":
-            stop = 0
-            break
-        if x == "cal":
-            utility.calibrateAcc()
-    # x = int(input())
-    # y = int(input())
-    # utility.movb((x,y),False)
     # while True:
-    # 	# time.sleep(0.5)
-    # 	# utility.bomb()
-    #     c = input()
-    #     if c == "move":
-    #         x = int(input())
-    #         y = int(input())
-    #         utility.movb((x,y),False)
-    #     elif c == "bomb":
-    #         utility.bomb()
+    #     x = input()
+    #     if x == "stop":
+    #         stop = 0
+    #         break
+    #     if x == "cal":
+    #         utility.calibrateAcc()
+    while True:
+    	# time.sleep(0.5)
+    	# utility.bomb()
+        c = input()
+        if c == "move":
+            x = int(input())
+            y = int(input())
+            # utility.movb((x,y),False)
+            utility.mova((x,y))
+        elif c == "bomb":
+            utility.bomb()
 
 
 def strategy():
@@ -139,11 +137,11 @@ def strayToMine(mine):
     mine = mine[1:3]
     #curPos = copy.deepcopy(r.pos)
     k = movb(mine, False)
-    i = 0
-    while (k == False and i < 3):
-        print('here ' + str(i) + str(k))
-        k = movb(mine, False)
-        i += 1
+    # i = 0
+    # while (k == False and i < 3):
+    #     print('here ' + str(i) + str(k))
+    #     k = movb(mine, False)
+    #     i += 1
 
     # k = movb(curPos, True)
     '''

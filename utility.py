@@ -49,6 +49,9 @@ def sub(a,b):
 def dot(a,b):
     return a[0]*b[0]+a[1]*b[1]
 
+def proj(v,d):
+    return mulC(d,dot(v,d)/(norm(d)**2))
+
 def distance(t1, t2):
     return norm(sub(t1,t2))
 
@@ -123,6 +126,18 @@ def bomb():
     # print (r.pos)
     r.bomb(x,y)
 
+def mova(dest):
+    origDest=dest
+    while True:
+        dest=trueDest(r.pos,dest)
+        d = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
+        aVector=mulC(sub(r.vel,proj(r.vel,d)),-1)
+        mag=min(1,norm(aVector)/aConstant)
+        arg=direction(r.vel,(r.vel[0]+10*aVector[0],r.vel[1]-10*aVector[1]))
+        r.accelerate(arg, mag)
+        if closeEnough(origDest, r.pos, 10):
+            print("Destination Reached")
+            break
 
 def movb(dest,interrupt):
     if interrupt == False:
@@ -139,20 +154,21 @@ def movb(dest,interrupt):
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
-    if interrupt:
-        r.bomb(r.pos[0],r.pos[1])
+    # if interrupt:
+    #     r.bomb(r.pos[0],r.pos[1])
+    print(dest)
     origDest=dest
     dest=trueDest(r.pos,dest)
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
-    prev = r.pos
-    counter = 1
+    # prev = r.pos
+    # counter = 1
     while True:
         time.sleep(0.025)
-        counter += 1
-        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 10:
-            return False
-        prev = r.pos
+        # counter += 1
+        # if mapDist(prev, origDest) < mapDist(r.pos, origDest) && counter >= 10:
+        #     return False
+        # prev = r.pos
         if interrupt:
             mines=r.mines
             mines=[x for x in mines if x[0]!=username]
