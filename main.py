@@ -1,12 +1,17 @@
 from commands import *
+import time
+import threading
 r = MyReponse()
 
 def main():
-	r.update()
-	print(r)
+	updateThread = threading.Thread(target = statusUpdate)
+	updateThread.start()
+
 
 def statusUpdate():
 	while True:
-		pass
+		time.sleep(0.1)
+		r.update()
+		print(r)
 
 main()

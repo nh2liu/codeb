@@ -15,8 +15,6 @@ class Player:
         return output
 
 
-
-
 class MyReponse:
     def __init__(self):
         self.pos = (0,0)
@@ -26,8 +24,11 @@ class MyReponse:
         self.bombs = []
         self.config = {}
     def __repr__(self):
-        output = "pos: {}\nvel: {}\nmines: {}\nplayers: {}\nbombs: {}\n".format(\
+        '''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
                  self.pos, self.vel, self.mines, "\n".join([str(p) for p in self.players]),self.bombs)
+            '''
+        output = "pos: {}\nvel: {}\nmines: {}\nplayers:{}\nbombs: {}\n".format(\
+                 self.pos, self.vel, len(self.mines), len(self.players),len(self.bombs))
         return output
     def update(self):
         def findInSet(response, keyword):
@@ -47,11 +48,14 @@ class MyReponse:
             return cSet
 
         r = run("STATUS").split(" ")
-        self.mines = findInSet(r,"MINES")
-        self.players = findInSet(r,'PLAYERS')
-        self.bombs = findInSet(r,'BOMBS')
-        self.pos = [float(x) for x in r[1:3]]
-        self.vel = [float(x) for x in r[3:5]]
+        try:
+            self.mines = findInSet(r,"MINES")
+            self.players = findInSet(r,'PLAYERS')
+            self.bombs = findInSet(r,'BOMBS')
+            self.pos = [float(x) for x in r[1:3]]
+            self.vel = [float(x) for x in r[3:5]]
+        except:
+            print("ERROR: {}".format(r))
 
 
     def accelerate(self, radians, boost):
@@ -92,12 +96,3 @@ class MyReponse:
         return self.config
 
 
-
-
-
-
-p = MyReponse()
-print(p.bomb(0,0))
-print(p.accelerate(0,1))
-print(p.scoreboard())
-print(p.configurations())
