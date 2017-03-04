@@ -4,10 +4,14 @@ class Player:
 		self.pos = pos
 		self.vel = vel
 	def __repr__(self):
-		output = "pos: {} \nvel: {}\n".format(self.pos, self.vel)
+		oPos = [round(x, 2) for x in self.pos]
+		oVel = [round(x, 2) for x in self.vel]
+		output = "pos: {} \nvel: {}\n".format(oPos, oVel)
 		return output
 	def __str__(self):
-		output = "pos: {} \nvel: {}\n".format(self.pos, self.vel)
+		oPos = [round(x, 2) for x in self.pos]
+		oVel = [round(x, 2) for x in self.vel]
+		output = "pos: {} \nvel: {}\n".format(oPos, oVel)
 		return output
 
 class MyReponse:
@@ -27,13 +31,13 @@ class MyReponse:
 			cSet = []
 			if response[index + 1] != '0':
 				num = int(response[index + 1])
-				j = 2
-				while j < num + 2:
+				j = 0
+				while j < num:
 					if keyword == "PLAYERS":
-						x,y,dx,dy = [float(x) for x in response[index + j:index + j + 4]]
+						x,y,dx,dy = [float(x) for x in response[index + 2+ j * 4:index + 2 + (j + 1)*4]]
 						cSet.append(Player((x,y),(dx,dy)))
 					else:
-						x,y,dx,dy = [float(x) for x in response[index + j * 4 :index + (j+1) * 4]]
+						x,y = [float(x) for x in response[index + 2+ j * 2 :index + 2+ (j + 1) * 2]]
 						cSet.append((x,y))
 					j += 1
 			return cSet
@@ -44,4 +48,3 @@ class MyReponse:
 		self.bombs = findInSet(r,'BOMBS')
 		self.pos = [float(x) for x in r[1:3]]
 		self.vel = [float(x) for x in r[3:5]]
-		print(r)
