@@ -1,7 +1,6 @@
-from commands import *
+from rObject import *
 import time
 import threading
-r = MyReponse()
 import utility
 
 stop = 1
@@ -21,9 +20,9 @@ def main():
 
 def statusUpdate():
 	while stop:
-		time.sleep(0.1)
 		r.update()
 		#print(r)
+		time.sleep(10)
 
 if __name__ == "__main__":
 	main()

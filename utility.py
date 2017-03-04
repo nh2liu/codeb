@@ -1,7 +1,7 @@
 import math
 import time
 import copy
-from main import *
+from rObject import *
 
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
@@ -41,10 +41,17 @@ def calibrateAcc():
 
 def movb(dest):
     print("moving to {0}".format(dest))
-    while r.vel != (0, 0):
-        run("BRAKE")
+    print("eeee")
+    print(r)
+    print("eeet")
+    #while r.vel != (0, 0):
+    #    run("BRAKE")
+
     path = dest[0] - r.pos[0], dest[1] - r.pos[1]
+    print(path)
     angle = math.asin(path[1]/path[0])
+    print(angle)
+    print("ACCELERATE " + str(angle) + " 1")
     run("ACCELERATE " + str(angle) + " 1")
 
 def whenTobrake():
