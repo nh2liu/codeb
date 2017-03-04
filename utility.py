@@ -6,6 +6,20 @@ import commands
 from main import *
 
 epison = 0.005
+MAPWIDTH = 10000
+def mapDistance(t1, dest):
+    minPath = min((dest, t1),
+               (sub(dest, (0, MAPWIDTH)), t1),
+               (sub(dest, (MAPWIDTH, MAPWIDTH)), t1),
+               (sub(dest, (MAPWIDTH, 0)), t1), key=lambda x: distance(x[0], x[1]))
+    return distance(minPath[0], minPath[1])
+
+def closestPath(t1, dest):
+    minPath = min((dest, t1),
+               (sub(dest, (0, MAPWIDTH)), t1),
+               (sub(dest, (MAPWIDTH, MAPWIDTH)), t1),
+               (sub(dest, (MAPWIDTH, 0)), t1), key=lambda x: distance(x[0], x[1]))
+    return sub(minPath[0], minPath[1])
 
 def closeEnough(t1, t2, e = epison):
     return distance(t1,t2) <= e
