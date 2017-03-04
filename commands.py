@@ -22,7 +22,7 @@ class MyReponse:
         self.mines = []
         self.players = []
         self.bombs = []
-        self.config = {}
+        self.configs = {}
     def __repr__(self):
         '''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
                  self.pos, self.vel, self.mines, "\n".join([str(p) for p in self.players]),self.bombs)
@@ -41,6 +41,10 @@ class MyReponse:
                     if keyword == "PLAYERS":
                         x,y,dx,dy = [float(x) for x in response[index + 2+ j * 4:index + 2 + (j + 1)*4]]
                         cSet.append(Player((x,y),(dx,dy)))
+                    if keyword == "MINES":
+                        player = response[index + 2+ j * 3]
+                        x,y = [float(x) for x in response[index + 3+ j * 3 :index + 2 + (j + 1)*3]]
+                        cSet.append((player, x, y))
                     else:
                         x,y = [float(x) for x in response[index + 2+ j * 2 :index + 2+ (j + 1) * 2]]
                         cSet.append((x,y))
@@ -48,16 +52,12 @@ class MyReponse:
             return cSet
 
         r = run("STATUS").split(" ")
-        try:
-            self.mines = findInSet(r,"MINES")
-            self.players = findInSet(r,'PLAYERS')
-            self.bombs = findInSet(r,'BOMBS')
-            self.pos = [float(x) for x in r[1:3]]
-            self.vel = [float(x) for x in r[3:5]]
-        except:
-            print("ERROR: {}".format(r))
-
-
+        self.mines = findInSet(r,"MINES")
+        self.players = findInSet(r,'PLAYERS')
+        self.bombs = findInSet(r,'BOMBS')
+        self.pos = [float(x) for x in r[1:3]]
+        self.vel = [float(x) for x in r[3:5]]
+        
     def accelerate(self, radians, boost):
         r = run("ACCELERATE " + str(radians) + " " + str(boost))
         return r
@@ -94,5 +94,4 @@ class MyReponse:
             idx += 2
 
         return self.config
-
 

@@ -2,13 +2,15 @@ import socket
 import sys
 
 def run(* commands):
-    # user = "a"
-    # password = "a"
-    ARR = ["g", "o", "o", "s", "e"]
-    user = "".join(ARR)
-    ARR[1] = ARR[2] = "e"
-    password = "".join(ARR)
+    user = "a"
+    password = "a"
     HOST, PORT = "localhost", 17429
+    if 0:
+        ARR = ["g", "o", "o", "s", "e"]
+        user = "".join(ARR)
+        ARR[1] = ARR[2] = "e"
+        password = "".join(ARR)
+        HOST, PORT = "codebb.cloudapp.net", 17429
     data = user + " " + password + "\n" + "\n".join(commands) + "\nCLOSE_CONNECTION\n"
     responseString = ""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
