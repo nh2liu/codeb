@@ -21,43 +21,7 @@ def main():
         if x == "cal":
             utility.calibrateAcc()
     '''
-def statusUpdate():
-    while stop:
-        r.update()
-        print(r)
-        time.sleep(5)
 
-
-if __name__ == "__main__":
-    main()
-
-def protect():
-    mines = copy.deepcopy(r.allMines)
-    currentPos = r.pos
-    greedyPath = []
-    while len(mines):
-        nxt = min(mines, key = lambda x:distance(currentPos, x[1:3]))
-        greedyPath.append(nxt)
-        currentPos = nxt
-        mines.remove(nxt)
-    for mine in greedyPath:
-        currentPos = r.pos
-        while distance(mine, r.pos) > 10:
-            k = moveb(mine, True)
-            if k:
-                moveb(mine, False)
-                continue
-
-def distance(c1, c2):
-    return (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2
-
-def strayToMine(mine):
-    curPos = copy.deepcopy(r.pos)
-    moveb(mine, False)
-    k = moveb(curPos, True)
-    if k:
-        strayToMine(k[1:3])
-    moveb(curPos, False)
 
 def strategy():
     bounds = moveBoundaries()
@@ -131,6 +95,34 @@ def scanPortion(boundsTuple):
 
     protect()
 
+
+def protect():
+    mines = copy.deepcopy(r.allMines)
+    currentPos = r.pos
+    greedyPath = []
+    while len(mines):
+        nxt = min(mines, key = lambda x:distance(currentPos, x[1:3]))
+        greedyPath.append(nxt)
+        currentPos = nxt
+        mines.remove(nxt)
+    for mine in greedyPath:
+        currentPos = r.pos
+        while distance(mine, r.pos) > 10:
+            k = moveb(mine, True)
+            if k:
+                moveb(mine, False)
+                continue
+
+def distance(c1, c2):
+    return (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2
+
+def strayToMine(mine):
+    curPos = copy.deepcopy(r.pos)
+    moveb(mine, False)
+    k = moveb(curPos, True)
+    if k:
+        strayToMine(k[1:3])
+    moveb(curPos, False)
 
 def pointDistance(p1, p2):
     return math.sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]))
