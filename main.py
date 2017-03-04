@@ -23,7 +23,7 @@ def statusUpdate():
 	while stop:
 		time.sleep(0.1)
 		r.update()
-		#print(r)
+		# print(r)
 
 if __name__ == "__main__":
 	main()

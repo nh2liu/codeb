@@ -1,7 +1,10 @@
 import math
 import time
 import copy
+import commands
 from main import *
+
+aConstant=0
 
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
@@ -38,8 +41,21 @@ def calibrateAcc():
     print(result)
     return result
 
+def findAcc():
+    print (str(r.pos[1]))
+    friction=0.99
+    v1 = r.vel
+    r.accelerate(0, 1)
+    # run("ACCELERATE 0 1")
+    time.sleep(1)
+    v2 = r.vel
+    aConstant=(v2-friction*v1)/friction
+    print("Acceleration is: "+str(aConstant))
+    return result
+
 
 def movb(dest):
+    print ("y pos: "+str(r.pos[1]))
     print("moving to {0}".format(dest))
     while r.vel != (0, 0):
         run("BRAKE")
