@@ -23,6 +23,7 @@ class MyReponse:
         self.players = []
         self.bombs = []
         self.configs = {}
+        self.configurations()
     def __repr__(self):
         '''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
                  self.pos, self.vel, self.mines, "\n".join([str(p) for p in self.players]),self.bombs)
@@ -87,10 +88,10 @@ class MyReponse:
     def configurations(self):
         resp = run("CONFIGURATIONS").split()[1:]
         l = len(resp)
-        self.config = []
+        self.config = {}
         idx = 0
         while idx < l:
-            self.config.append({resp[idx].lower(): float(resp[idx+1])})
+            self.config[resp[idx].lower()] = float(resp[idx+1])
             idx += 2
 
         return self.config

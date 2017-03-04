@@ -24,6 +24,9 @@ def closestPath(t1, dest):
 def closeEnough(t1, t2, e = epison):
     return distance(t1,t2) <= e
 
+def mulC(a,c):
+    return a[0]*c, a[1]*c
+
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
 
@@ -60,36 +63,46 @@ def calibrateAcc():
     return result
 
 def findAcc():
-    print (str(r.pos[1]))
+    # print (str(r.pos[1]))
     friction=0.99
     v1 = r.vel
     r.accelerate(0, 1)
-    # run("ACCELERATE 0 1")
     time.sleep(1)
     v2 = r.vel
-    aConstant=(v2-friction*v1)/friction
+    aConstant=norm(mulC(sub(v2,mulC(v1,friction)),1/friction))
     print("Acceleration is: "+str(aConstant))
-    return result
 
 
 def movb(dest):
-    print("moving to {0}".format(dest))
+    print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
+    print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
     print(r.pos)
     while closeEnough((0,0), r.vel)==False:
         run("BRAKE")
 
-    path = -(dest[0] - r.pos[0]), dest[1] - r.pos[1]
+    path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
     print(path)
-    if path[0] == 0:
-        if path[1] > 0:
-            angle = math.pi / 2
-        else:
-            angle = 3 * math.pi / 2
+
+    angle = math.atan(path[1]/path[0])
+    # print(angle*57.2958)
+    r.accelerate(angle, 1)
+    # q1
+    if dest[0]>=r.pos[0] and dest[1]<=r.pos[1]:
+        print("q1")
+        r.accelerate(-angle, 1)
+    # q2
+    elif dest[0]<=r.pos[0] and dest[1]<=r.pos[1]:
+        print("q2")
+        r.accelerate(math.pi+angle, 1)
+    # q3
+    elif dest[0]<=r.pos[0] and dest[1]>=r.pos[1]:
+        print("q3")
+        r.accelerate(math.pi-angle, 1)
+    # q4
     else:
-        angle = math.atan(path[1]/path[0])
-    print(angle)
-    print("ACCELERATE " + str(angle) + " 1")
-    run("ACCELERATE " + str(angle) + " 1")
+        print("q4")
+        r.accelerate(angle, 1)
+
     while True:
         time.sleep(0.1)
         print(distance(dest,r.pos))
