@@ -23,7 +23,7 @@ class MyReponse:
         self.allMines = set()
         self.players = []
         self.bombs = []
-        self.configs = {}
+        self.config = {}
         self.configurations()
     def __repr__(self):
         '''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
