@@ -26,7 +26,7 @@ def mov(cur, velocity, dest):
 # basic move: stop, acceleration, deacceleration, one call
 def calibrateAcc():
     pos = r.pos
-    run("ACCEKERATE 0 1")
+    run("ACCELERATE 0 1")
     acceleration = []
     for i in range(5):
         time.sleep(0.2)
