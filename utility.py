@@ -121,7 +121,7 @@ def bomb():
 
 def movb(dest,interrupt):
     if interrupt == False:
-        epsilon = 0.01
+        epsilon = 0.005
         epson2 = 10
     else:
         epsilon = 0.4

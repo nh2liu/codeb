@@ -46,9 +46,9 @@ def scanPortion(boundsTuple):
     ylen = boundsTuple[2]
     cornerType = 'topleft'
     targCorner = bounds['topleft']
-    distanceToCorner = pointDistance(r.pos, targCorner)
+    distanceToCorner = mapDist(r.pos, targCorner)
     for k, v in bounds.items():
-        dis = pointDistance(v, r.pos)
+        dis = mapDist(v, r.pos)
         if dis < distanceToCorner:
             targCorner = v
             cornerType = k
@@ -57,7 +57,7 @@ def scanPortion(boundsTuple):
 
     movb(targCorner, True)
     while(distanceToCorner > r.config['visionradius']):
-        distanceToCorner = pointDistance(r.pos, targCorner)
+        distanceToCorner = mapDist(r.pos, targCorner)
         for mine in r.mines:
             if mine[0] != username:
                 strayToMine(mine)
@@ -92,7 +92,7 @@ def scanPortion(boundsTuple):
             targPos = (r.pos[0], r.pos[1] - ylen)
             movb(targPos, True)
 
-        distanceToTopBottom = pointDistance(r.pos, targPos)
+        distanceToTopBottom = mapDist(r.pos, targPos)
 
         while(distanceToTopBottom > r.config['visionradius']):
             print(r.mines)
@@ -103,7 +103,7 @@ def scanPortion(boundsTuple):
                 movb(targPos, True)
 
             print("Dist: " +str(distanceToTopBottom))
-            distanceToTopBottom = pointDistance(r.pos, targPos)
+            distanceToTopBottom = mapDist(r.pos, targPos)
 
         top = not top
 
@@ -132,21 +132,22 @@ def protect():
     greedyPath = []
     while len(mines):
         print(mines)
-        nxt = min(mines, key = lambda x:distance(currentPos, x[1:3]))
+        nxt = min(mines, key = lambda x:mapDist(currentPos, x[1:3]))
         greedyPath.append(nxt[1:3])
         currentPos = nxt[1:3]
         mines.remove(nxt)
     for mine in greedyPath:
         movb(mine, False)
 
-
-def distance(c1, c2):
-    return (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2
-
 def strayToMine(mine):
     mine = mine[1:3]
-    curPos = copy.deepcopy(r.pos)
-    movb(mine, False)
+    #curPos = copy.deepcopy(r.pos)
+    k = movb(mine, False)
+    i = 0
+    while (k == False and i < 3):
+        k = movb(mine, False)
+        i += 1
+
     # k = movb(curPos, True)
     '''
     print("before")
@@ -156,24 +157,21 @@ def strayToMine(mine):
     movb(curPos, False)
     '''
 
-def pointDistance(p1, p2):
-    return math.sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]))
-
 
 # def moveToCorner(currentPos, bounds):
 #     cornerType = {}
 
-#     def pointDistance(p1, p2):
+#     def mapDist(p1, p2):
 #         return math.sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]))
     
 #     topleft = bounds[0]
-#     cornerType['topleft'] = (pointDistance(currentPos, topleft), topleft)
+#     cornerType['topleft'] = (mapDist(currentPos, topleft), topleft)
 #     topright = (topleft[0] + bounds[1], topleft[1])
-#     cornerType['topright'] = (pointDistance(currentPos, topright), topright)
+#     cornerType['topright'] = (mapDist(currentPos, topright), topright)
 #     botleft = (topleft[0], topleft[1] + bounds[2])
-#     cornerType['botleft'] = (pointDistance(currentPos, botleft), botleft)
+#     cornerType['botleft'] = (mapDist(currentPos, botleft), botleft)
 #     botright = (topleft[0] + bounds[2], topleft[1] + bounds[2])
-#     cornerType['botright'] = (pointDistance(currentPos, botright), botright)
+#     cornerType['botright'] = (mapDist(currentPos, botright), botright)
 
 #     minCornerType = 'topleft'
 #     minDist = cornerType['topleft'][0]
