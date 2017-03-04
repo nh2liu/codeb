@@ -13,7 +13,7 @@ def main():
     while True:
         x = int(input())
         y = int(input())
-        utility.movb((x,y),True)
+        utility.movb((x,y),False)
         if x == "stop":
             stop = 0
             break
@@ -177,7 +177,7 @@ def statusUpdate():
     while True:
         time.sleep(0.05)
         r.update()
-        print(r)
+        # print(r)
 
 if __name__ == "__main__":
 	main()

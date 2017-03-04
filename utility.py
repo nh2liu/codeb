@@ -90,6 +90,7 @@ def movb(dest,interrupt):
     while closeEnough((0,0), r.vel)==False:
         run("BRAKE")
     print(dest)
+    origDest=dest
     dest=trueDest(r.pos,dest)
     print(dest)
     path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
@@ -120,13 +121,14 @@ def movb(dest,interrupt):
 
     while True:
         time.sleep(0.1)
-        mines=r.mines
-        mines=[x for x in mines if x[0]!="goose"]
-        if (mines!=[]):
-            print ("found")
-            return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
+        if interrupt:
+            mines=r.mines
+            mines=[x for x in mines if x[0]!="goose"]
+            if (mines!=[]):
+                print ("found")
+                return min(mines, key=lambda x: mapDist(r.pos, (x[1],x[2])))
         # print(distance(dest,r.pos))
-        if closeEnough(dest, r.pos, 5):
+        if closeEnough(origDest, r.pos, 5):
             print("Desstination Reached")
             break
 
