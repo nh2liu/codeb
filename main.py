@@ -1,7 +1,7 @@
 from rObject import *
 import time
 import threading
-import utility
+from utility import *
 import copy
 import math
 
@@ -21,11 +21,12 @@ def main():
         if x == "cal":
             utility.calibrateAcc()
     '''
+    strategy()
 
 
 def strategy():
     bounds = moveBoundaries()
-    scanPortion(boundsTuple)
+    scanPortion(bounds)
 
 def scanPortion(boundsTuple):
     bounds = boundsTuple[0]
@@ -108,21 +109,22 @@ def protect():
     for mine in greedyPath:
         currentPos = r.pos
         while distance(mine, r.pos) > 10:
-            k = moveb(mine, True)
+            k = movb(mine, True)
             if k:
-                moveb(mine, False)
+                movb(mine, False)
                 continue
 
 def distance(c1, c2):
     return (c1[0] - c2[0])**2 + (c1[1] - c2[1])**2
 
 def strayToMine(mine):
+    mine = mine[1:3]
     curPos = copy.deepcopy(r.pos)
-    moveb(mine, False)
-    k = moveb(curPos, True)
+    movb(mine, False)
+    k = movb(curPos, True)
     if k:
-        strayToMine(k[1:3])
-    moveb(curPos, False)
+        strayToMine(k)
+    movb(curPos, False)
 
 def pointDistance(p1, p2):
     return math.sqrt((p1[0] - p2[0])*(p1[0] - p2[0]) + (p1[1] - p2[1])*(p1[1] - p2[1]))
@@ -172,7 +174,6 @@ def statusUpdate():
     while True:
         time.sleep(0.05)
         r.update()
-        print(r)
 
 if __name__ == "__main__":
     main()

@@ -66,10 +66,8 @@ def calibrateAcc():
         v = r.vel
         time.sleep(0.2)
         a = distance(v, r.vel)/0.2
-        print(r)
         acceleration.append(a)
     result = sum(acceleration) / 10
-    print(result)
     return result
 
 def findAcc():
@@ -84,16 +82,16 @@ def findAcc():
 
 
 def movb(dest,interrupt):
-    print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
-    print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
-    print(r.pos)
+    # print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
+    # print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
+    # print(r.pos)
     while closeEnough((0,0), r.vel)==False:
         run("BRAKE")
-    print(dest)
+    # print(dest)
     dest=trueDest(r.pos,dest)
-    print(dest)
+    # print(dest)
     path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
-    print(path)
+    # print(path)
     # q1
     if dest[0]==r.pos[0]:
         if dest[1]<r.pos[1]:
