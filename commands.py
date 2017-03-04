@@ -22,8 +22,11 @@ class MyReponse:
 		self.players = []
 		self.bombs = []
 	def __repr__(self):
-		output = "pos: {}\nvel: {}\nmines: {}\nplayers: {}\nbombs: {}\n".format(\
+		'''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
 				 self.pos, self.vel, self.mines, "\n".join([str(p) for p in self.players]),self.bombs)
+			'''
+		output = "pos: {}\nvel: {}\nmines: {}\nplayers:{}\nbombs: {}\n".format(\
+				 self.pos, self.vel, len(self.mines), len(self.players),len(self.bombs))
 		return output
 	def update(self):
 		def findInSet(response, keyword):
@@ -43,8 +46,11 @@ class MyReponse:
 			return cSet
 
 		r = run("STATUS").split(" ")
-		self.mines = findInSet(r,"MINES")
-		self.players = findInSet(r,'PLAYERS')
-		self.bombs = findInSet(r,'BOMBS')
-		self.pos = [float(x) for x in r[1:3]]
-		self.vel = [float(x) for x in r[3:5]]
+		try:
+			self.mines = findInSet(r,"MINES")
+			self.players = findInSet(r,'PLAYERS')
+			self.bombs = findInSet(r,'BOMBS')
+			self.pos = [float(x) for x in r[1:3]]
+			self.vel = [float(x) for x in r[3:5]]
+		except:
+			print("ERROR: {}".format(r))
