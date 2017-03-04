@@ -20,9 +20,11 @@ class MyReponse:
         self.pos = (0,0)
         self.vel = (0,0)
         self.mines = []
+        self.allMines = set()
         self.players = []
         self.bombs = []
         self.configs = {}
+        self.configurations()
     def __repr__(self):
         '''output = "pos: {}\nvel: {}\nmines: {}\nplayers:\n{}\nbombs: {}\n".format(\
                  self.pos, self.vel, self.mines, "\n".join([str(p) for p in self.players]),self.bombs)
@@ -53,6 +55,7 @@ class MyReponse:
 
         r = run("STATUS").split(" ")
         self.mines = findInSet(r,"MINES")
+        self.allMines = self.allMines.union(set(self.mines))
         self.players = findInSet(r,'PLAYERS')
         self.bombs = findInSet(r,'BOMBS')
         self.pos = [float(x) for x in r[1:3]]
@@ -87,10 +90,10 @@ class MyReponse:
     def configurations(self):
         resp = run("CONFIGURATIONS").split()[1:]
         l = len(resp)
-        self.config = []
+        self.config = {}
         idx = 0
         while idx < l:
-            self.config.append({resp[idx].lower(): float(resp[idx+1])})
+            self.config[resp[idx].lower()] = float(resp[idx+1])
             idx += 2
 
         return self.config

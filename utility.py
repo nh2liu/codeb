@@ -5,7 +5,10 @@ from rObject import *
 import commands
 from main import *
 
-aConstant=0
+epison = 0.005
+
+def closeEnough(t1, t2, e = epison):
+    return distance(t1,t2) <= e
 
 def sub(a,b):
     return a[0] - b[0], a[1] - b[1]
@@ -56,20 +59,29 @@ def findAcc():
 
 
 def movb(dest):
-    print ("y pos: "+str(r.pos[1]))
     print("moving to {0}".format(dest))
-    print("eeee")
-    print(r)
-    print("eeet")
-    #while r.vel != (0, 0):
-    #    run("BRAKE")
+    print(r.pos)
+    while closeEnough((0,0), r.vel)==False:
+        run("BRAKE")
 
-    path = dest[0] - r.pos[0], dest[1] - r.pos[1]
+    path = -(dest[0] - r.pos[0]), dest[1] - r.pos[1]
     print(path)
-    angle = math.asin(path[1]/path[0])
+    if path[0] == 0:
+        if path[1] > 0:
+            angle = math.pi / 2
+        else:
+            angle = 3 * math.pi / 2
+    else:
+        angle = math.atan(path[1]/path[0])
     print(angle)
     print("ACCELERATE " + str(angle) + " 1")
     run("ACCELERATE " + str(angle) + " 1")
+    while True:
+        time.sleep(0.1)
+        print(distance(dest,r.pos))
+        if closeEnough(dest, r.pos, 200):
+            print("Current Position is {0}".format(r.pos))
+            break
 
 def whenTobrake():
     x = norm
