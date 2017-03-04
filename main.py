@@ -4,7 +4,7 @@ import threading
 from utility import *
 import copy
 import math
-
+import random
 stop = 1
 
 def main():
@@ -153,7 +153,8 @@ def strayToMine(mine):
     movb(curPos, False)
     '''
 
-
+#def scanStrat():
+#    send()
 # def moveToCorner(currentPos, bounds):
 #     cornerType = {}
 
@@ -182,10 +183,10 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
-    xrate = 0.45
-    yrate = 0.3
-    xlen = 0.4
-    ylen = 0.2
+    xrate = 0.70
+    yrate = 0.65
+    xlen = 0.25
+    ylen = 0.25
 
     corners = {}
     corners['topleft'] = (xrate*width, yrate*height)

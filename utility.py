@@ -143,7 +143,7 @@ def mova(dest):
         if closeEnough(origDest, r.pos, 10):
             print("Destination Reached")
             break
-def movb(dest, nul = False):
+def movc(dest, nul = False):
     origDest=dest
     dest = trueDest(r.pos, origDest)
     prev=r.pos
@@ -192,12 +192,12 @@ def movb(dest, nul = False):
         r.accelerate(arg, mag)
       #  print("accelerating", origDest, arg, dest)
     print("Destination Reached")
-'''
+
 def movb(dest,interrupt):
     if interrupt == False:
         epsilon = 0.015
         epson2 = 10
-        epson3 = 0.2
+        epson3 = 0.3
     else:
         epsilon = 0.4
         epson3 = 0.2
@@ -212,6 +212,11 @@ def movb(dest,interrupt):
         mag=min(1,norm(r.vel)/aConstant)
         arg=direction(r.pos,(r.pos[0]-10*r.vel[0],r.pos[1]-10*r.vel[1]))
         r.accelerate(arg, mag)
+    while closeEnough((0,0), r.vel, epson3/3)==True:
+        time.sleep(0.025)
+        print("braking")
+        # decelerate
+        r.halt()
     # if interrupt:
     #     r.bomb(r.pos[0],r.pos[1])
     print(dest)
@@ -224,7 +229,7 @@ def movb(dest,interrupt):
     while True:
         time.sleep(0.01)
         counter += 1
-        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 500:
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 200:
             return False
         prev = r.pos
         if interrupt:
@@ -237,7 +242,7 @@ def movb(dest,interrupt):
         if closeEnough(origDest, r.pos, epson2):
             print("Desstination Reached")
             break
-'''
+
 def whenTobrake():
     x = norm
 
