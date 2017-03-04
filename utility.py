@@ -5,7 +5,10 @@ from rObject import *
 import commands
 from main import *
 
-aConstant=0
+epison = 0.005
+
+def closeEnough(t1, t2, e = epison):
+    return distance(t1,t2) <= e
 
 def mulC(a,c):
     return a[0]*c, a[1]*c
@@ -59,17 +62,39 @@ def findAcc():
 def movb(dest):
     print ("dest pos: "+str(dest[0])+", "+str(dest[1]))
     print ("r pos: "+str(r.pos[0])+", "+str(r.pos[1]))
-    print("moving to {0}".format(dest))
-    while abs(r.vel[0])>0.001 and abs(r.vel[1])>0.001:
-       print("breaking")
-       run("BRAKE")
+    print(r.pos)
+    while closeEnough((0,0), r.vel)==False:
+        run("BRAKE")
 
-    path = dest[0] - r.pos[0], dest[1] - r.pos[1]
+    path = abs(dest[0] - r.pos[0]), abs(dest[1] - r.pos[1])
     print(path)
+
     angle = math.atan(path[1]/path[0])
-    print(angle)
-    print("ACCELERATE " + str(angle) + " 1")
+    # print(angle*57.2958)
     r.accelerate(angle, 1)
+    # q1
+    if dest[0]>=r.pos[0] and dest[1]<=r.pos[1]:
+        print("q1")
+        r.accelerate(-angle, 1)
+    # q2
+    elif dest[0]<=r.pos[0] and dest[1]<=r.pos[1]:
+        print("q2")
+        r.accelerate(math.pi+angle, 1)
+    # q3
+    elif dest[0]<=r.pos[0] and dest[1]>=r.pos[1]:
+        print("q3")
+        r.accelerate(math.pi-angle, 1)
+    # q4
+    else:
+        print("q4")
+        r.accelerate(angle, 1)
+
+    while True:
+        time.sleep(0.1)
+        print(distance(dest,r.pos))
+        if closeEnough(dest, r.pos, 200):
+            print("Current Position is {0}".format(r.pos))
+            break
 
 def whenTobrake():
     x = norm
