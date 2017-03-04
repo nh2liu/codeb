@@ -87,8 +87,6 @@ def scanPortion(boundsTuple):
             targPos = (r.pos[0], r.pos[1] + ylen)
             movb(targPos, True)
         else:
-            print(r.pos)
-            print(ylen)
             targPos = (r.pos[0], r.pos[1] - ylen)
             movb(targPos, True)
 
@@ -114,10 +112,10 @@ def scanPortion(boundsTuple):
             if nextX < 0:
                 nextX = r.config['mapwidth'] + nextX
 
+        print("LEFT " + str(left) + " NEXT X " + str(nextX))
         nextPos = (nextX, r.pos[1])
         k = movb(nextPos, True)
-        print(k)
-        if k != None and k!=False:
+        if k != None:
             strayToMine(k)
         i += 1
     
@@ -130,7 +128,6 @@ def protect():
     currentPos = r.pos
     greedyPath = []
     while len(mines):
-        print(mines)
         nxt = min(mines, key = lambda x:mapDist(currentPos, x[1:3]))
         greedyPath.append(nxt[1:3])
         currentPos = nxt[1:3]
@@ -186,10 +183,10 @@ def strayToMine(mine):
 def moveBoundaries():
     width = r.config['mapwidth']
     height = r.config['mapheight']
-    xrate = 0.6
-    yrate = 0.4
-    xlen = 0.2
-    ylen = 0.4
+    xrate = 0
+    yrate = 0
+    xlen = 1
+    ylen = 1
 
     corners = {}
     corners['topleft'] = (xrate*width, yrate*height)

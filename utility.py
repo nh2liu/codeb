@@ -126,7 +126,7 @@ def bomb():
 
 def movb(dest,interrupt):
     if interrupt == False:
-        epsilon = 0.005
+        epsilon = 0.015
         epson2 = 10
     else:
         epsilon = 0.4
@@ -141,16 +141,16 @@ def movb(dest,interrupt):
         r.accelerate(arg, mag)
     if interrupt:
         r.bomb(r.pos[0],r.pos[1])
-    print(dest)
     origDest=dest
     dest=trueDest(r.pos,dest)
-    print(dest)
     angle=direction(r.pos,dest)
     r.accelerate(angle, 1)
     prev = r.pos
+    counter = 1
     while True:
         time.sleep(0.025)
-        if mapDist(prev, origDest) < mapDist(r.pos, origDest):
+        counter += 1
+        if mapDist(prev, origDest) < mapDist(r.pos, origDest) and counter >= 10:
             return False
         prev = r.pos
         if interrupt:
